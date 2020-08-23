@@ -1,9 +1,12 @@
 // @flow
 
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
-const absoluteStretch = {
-  position: 'absolute',
+// Prevent IOS 9 Safari and some older browsers from overflowing 
+// the body content after drawer opens/closes.
+const position = Platform.OS === 'web' ? 'fixed' : 'absolute'; 
+
+const stretchedContainer = {
   top: 0,
   left: 0,
   bottom: 0,
@@ -12,11 +15,13 @@ const absoluteStretch = {
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
+    position,
+    ...stretchedContainer,
     justifyContent: 'center',
   },
   menu: {
-    ...absoluteStretch,
+    ...stretchedContainer,
+    position: 'absolute',
   },
   frontView: {
     flex: 1,
@@ -27,7 +32,8 @@ export default StyleSheet.create({
     overflow: 'hidden',
   },
   overlay: {
-    ...absoluteStretch,
+    ...stretchedContainer,
+    position: 'absolute',
     backgroundColor: 'transparent',
   },
 });
